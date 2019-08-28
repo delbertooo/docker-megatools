@@ -14,7 +14,7 @@ WORKDIR /usr/src/megatools
 RUN ./configure --prefix=/build
 RUN make -j4
 RUN make install
-
+RUN ls -lhR /build
 
 FROM debian:8-slim
 
@@ -25,4 +25,6 @@ RUN set -xe; \
         ; \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /build/* /usr/local/bin/
+COPY --from=build /build /usr/local/
+
+RUN ldconfig -v && megals --version
